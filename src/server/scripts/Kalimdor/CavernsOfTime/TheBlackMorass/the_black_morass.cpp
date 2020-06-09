@@ -140,15 +140,15 @@ public:
 
         void JustEngagedWith(Unit* /*who*/) override { }
 
-        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
         {
             if (SpellCorrupt_Timer)
                 return;
 
-            if (spellInfo->Id == SPELL_CORRUPT_AEONUS)
+            if (spell->Id == SPELL_CORRUPT_AEONUS)
                 SpellCorrupt_Timer = 1000;
 
-            if (spellInfo->Id == SPELL_CORRUPT)
+            if (spell->Id == SPELL_CORRUPT)
                 SpellCorrupt_Timer = 3000;
         }
 

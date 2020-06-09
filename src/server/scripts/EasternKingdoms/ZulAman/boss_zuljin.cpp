@@ -582,14 +582,10 @@ class npc_zuljin_vortex : public CreatureScript
 
             void JustEngagedWith(Unit* /*target*/) override { }
 
-            void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* caster, SpellInfo const* spell) override
             {
-                Unit* unitCaster = caster->ToUnit();
-                if (!unitCaster)
-                    return;
-
-                if (spellInfo->Id == SPELL_ZAP_INFORM)
-                    DoCast(unitCaster, SPELL_ZAP_DAMAGE, true);
+                if (spell->Id == SPELL_ZAP_INFORM)
+                    DoCast(caster, SPELL_ZAP_DAMAGE, true);
             }
 
             void UpdateAI(uint32 /*diff*/) override

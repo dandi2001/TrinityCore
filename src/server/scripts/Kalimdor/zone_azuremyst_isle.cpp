@@ -111,16 +111,16 @@ public:
             }
         }
 
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* Caster, SpellInfo const* Spell) override
         {
-            if (spellInfo->SpellFamilyFlags[2] & 0x080000000)
+            if (Spell->SpellFamilyFlags[2] & 0x080000000)
             {
                 me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
                 me->SetStandState(UNIT_STAND_STATE_STAND);
 
                 DoCast(me, SPELL_STUNNED, true);
 
-                pCaster = caster->GetGUID();
+                pCaster = Caster->GetGUID();
 
                 SayThanksTimer = 5000;
             }

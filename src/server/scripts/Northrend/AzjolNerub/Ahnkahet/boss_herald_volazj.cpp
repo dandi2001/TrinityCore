@@ -109,9 +109,9 @@ public:
             }
         }
 
-        void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+        void SpellHitTarget(Unit* target, SpellInfo const* spell) override
         {
-            if (spellInfo->Id == SPELL_INSANITY)
+            if (spell->Id == SPELL_INSANITY)
             {
                 // Not good target or too many players
                 if (target->GetTypeId() != TYPEID_PLAYER || insanityHandled > 4)

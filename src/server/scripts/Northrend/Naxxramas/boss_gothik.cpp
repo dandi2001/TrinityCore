@@ -914,10 +914,12 @@ public:
 
             return nullptr;
         }
-
-        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
         {
-            switch (spellInfo->Id)
+            if (!spell)
+                return;
+
+            switch (spell->Id)
             {
                 case SPELL_ANCHOR_1_TRAINEE:
                     DoCastAOE(SPELL_ANCHOR_2_TRAINEE, true);

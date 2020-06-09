@@ -222,12 +222,12 @@ public:
                 std::bind(&BossAI::DoMeleeAttackIfReady, this));
         }
 
-        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* /*source*/, SpellInfo const* spell) override
         {
-            if (spellInfo->Mechanic == MECHANIC_DISARM)
+            if (spell->Mechanic == MECHANIC_DISARM)
                 Talk(SAY_DISARMED);
 
-            if (spellInfo->Id == SPELL_MOUNT)
+            if (spell->Id == SPELL_MOUNT)
             {
                 if (Creature* midnight = ObjectAccessor::GetCreature(*me, _midnightGUID))
                 {

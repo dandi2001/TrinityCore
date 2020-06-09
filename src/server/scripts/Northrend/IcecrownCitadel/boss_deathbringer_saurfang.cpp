@@ -415,7 +415,7 @@ class boss_deathbringer_saurfang : public CreatureScript
                 instance->HandleGameObject(instance->GetGuidData(GO_SAURFANG_S_DOOR), false);
             }
 
-            void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+            void SpellHitTarget(Unit* target, SpellInfo const* spell) override
             {
                 if (target->GetTransport())
                 {
@@ -423,7 +423,7 @@ class boss_deathbringer_saurfang : public CreatureScript
                     return;
                 }
 
-                switch (spellInfo->Id)
+                switch (spell->Id)
                 {
                     case SPELL_MARK_OF_THE_FALLEN_CHAMPION:
                         Talk(SAY_MARK_OF_THE_FALLEN_CHAMPION);
@@ -444,9 +444,9 @@ class boss_deathbringer_saurfang : public CreatureScript
                 }
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_BLOOD_LINK_POWER)
+                if (spell->Id == SPELL_BLOOD_LINK_POWER)
                     if (Aura* bloodPower = me->GetAura(SPELL_BLOOD_POWER))
                         bloodPower->RecalculateAmountOfEffects();
             }
@@ -716,9 +716,9 @@ class npc_high_overlord_saurfang_icc : public CreatureScript
                 }
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_GRIP_OF_AGONY)
+                if (spell->Id == SPELL_GRIP_OF_AGONY)
                 {
                     me->SetDisableGravity(true);
                     me->GetMotionMaster()->MovePoint(POINT_CHOKE, chokePos[0]);
@@ -923,9 +923,9 @@ class npc_muradin_bronzebeard_icc : public CreatureScript
                 }
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_GRIP_OF_AGONY)
+                if (spell->Id == SPELL_GRIP_OF_AGONY)
                 {
                     me->SetDisableGravity(true);
                     me->GetMotionMaster()->MovePoint(POINT_CHOKE, chokePos[0]);
@@ -1005,9 +1005,9 @@ class npc_saurfang_event : public CreatureScript
                 _index = data;
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_GRIP_OF_AGONY)
+                if (spell->Id == SPELL_GRIP_OF_AGONY)
                 {
                     me->SetDisableGravity(true);
                     me->GetMotionMaster()->MovePoint(POINT_CHOKE, chokePos[_index]);

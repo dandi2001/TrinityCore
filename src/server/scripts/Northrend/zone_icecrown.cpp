@@ -234,36 +234,32 @@ class npc_tournament_training_dummy : public CreatureScript
                 events.RescheduleEvent(EVENT_DUMMY_RESET, 10000);
             }
 
-            void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* caster, SpellInfo const* spell) override
             {
-                Unit* unitCaster = caster->ToUnit();
-                if (!unitCaster)
-                    return;
-
                 switch (me->GetEntry())
                 {
                     case NPC_CHARGE_TARGET:
-                        if (spellInfo->Id == SPELL_PLAYER_CHARGE)
+                        if (spell->Id == SPELL_PLAYER_CHARGE)
                             if (isVulnerable)
-                                DoCast(unitCaster, SPELL_CHARGE_CREDIT, true);
+                                DoCast(caster, SPELL_CHARGE_CREDIT, true);
                         break;
                     case NPC_MELEE_TARGET:
-                        if (spellInfo->Id == SPELL_PLAYER_THRUST)
+                        if (spell->Id == SPELL_PLAYER_THRUST)
                         {
-                            DoCast(unitCaster, SPELL_MELEE_CREDIT, true);
+                            DoCast(caster, SPELL_MELEE_CREDIT, true);
 
-                            if (Unit* target = unitCaster->GetVehicleBase())
+                            if (Unit* target = caster->GetVehicleBase())
                                 DoCast(target, SPELL_COUNTERATTACK, true);
                         }
                         break;
                     case NPC_RANGED_TARGET:
-                        if (spellInfo->Id == SPELL_PLAYER_BREAK_SHIELD)
+                        if (spell->Id == SPELL_PLAYER_BREAK_SHIELD)
                             if (isVulnerable)
-                                DoCast(unitCaster, SPELL_RANGED_CREDIT, true);
+                                DoCast(caster, SPELL_RANGED_CREDIT, true);
                         break;
                 }
 
-                if (spellInfo->Id == SPELL_PLAYER_BREAK_SHIELD)
+                if (spell->Id == SPELL_PLAYER_BREAK_SHIELD)
                     if (!me->HasAura(SPELL_CHARGE_DEFEND) && !me->HasAura(SPELL_RANGED_DEFEND))
                         isVulnerable = true;
             }
@@ -760,9 +756,9 @@ class npc_frostbrood_skytalon : public CreatureScript
                 }
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                switch (spellInfo->Id)
+                switch (spell->Id)
                 {
                     case SPELL_EXPLOSION:
                         DoCast(me, SPELL_IMMOLATION);

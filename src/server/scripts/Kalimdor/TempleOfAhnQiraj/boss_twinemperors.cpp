@@ -167,13 +167,13 @@ struct boss_twinemperorsAI : public BossAI
         }
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* entry) override
     {
         if (caster == me)
             return;
 
         Creature* pOtherBoss = GetOtherBoss();
-        if (spellInfo->Id != SPELL_HEAL_BROTHER || !pOtherBoss)
+        if (entry->Id != SPELL_HEAL_BROTHER || !pOtherBoss)
             return;
 
         // add health so we keep same percentage for both brothers

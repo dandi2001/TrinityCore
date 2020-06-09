@@ -126,13 +126,9 @@ public:
                 me->DespawnOrUnsummon(1);
         }
 
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* caster, SpellInfo const* spell) override
         {
-            Player* playerCaster = caster->ToPlayer();
-            if (!playerCaster)
-                return;
-
-            if (spellInfo->Id == SPELL_T_PHASE_MODULATOR)
+            if (spell->Id == SPELL_T_PHASE_MODULATOR && caster->GetTypeId() == TYPEID_PLAYER)
             {
                 const uint32 entry_list[4] = {ENTRY_PROTO, ENTRY_ADOLE, ENTRY_MATUR, ENTRY_NIHIL};
                 int cid = rand32() % (4 - 1);
@@ -157,7 +153,7 @@ public:
                         IsNihil = true;
                     }
                     else
-                        AttackStart(playerCaster);
+                        AttackStart(caster);
                 }
             }
         }
@@ -847,19 +843,15 @@ class npc_simon_bunny : public CreatureScript
                 }
             }
 
-            void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+            void SpellHitTarget(Unit* target, SpellInfo const* spell) override
             {
-                Unit* unitTarget = target->ToUnit();
-                if (!unitTarget)
-                    return;
-
                 // Cast SPELL_BAD_PRESS_DAMAGE with scaled basepoints when the visual hits the target.
                 // Need Fix: When SPELL_BAD_PRESS_TRIGGER hits target it triggers spell SPELL_BAD_PRESS_DAMAGE by itself
                 // so player gets damage equal to calculated damage  dbc basepoints for SPELL_BAD_PRESS_DAMAGE (~50)
-                if (spellInfo->Id == SPELL_BAD_PRESS_TRIGGER)
+                if (spell->Id == SPELL_BAD_PRESS_TRIGGER)
                 {
-                    int32 bp = (int32)((float)(fails) * 0.33f * unitTarget->GetMaxHealth());
-                    unitTarget->CastSpell(unitTarget, SPELL_BAD_PRESS_DAMAGE, CastSpellExtraArgs(TRIGGERED_FULL_MASK).AddSpellBP0(bp));
+                    int32 bp = (int32)((float)(fails)*0.33f*target->GetMaxHealth());
+                    target->CastSpell(target, SPELL_BAD_PRESS_DAMAGE, CastSpellExtraArgs(TRIGGERED_FULL_MASK).AddSpellBP0(bp));
                 }
             }
 

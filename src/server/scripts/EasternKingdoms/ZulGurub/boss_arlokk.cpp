@@ -375,14 +375,10 @@ class npc_zulian_prowler : public CreatureScript
                 me->RemoveAura(SPELL_SNEAK_RANK_1_2);
             }
 
-            void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* caster, SpellInfo const* spell) override
             {
-                Unit* unitCaster = caster->ToUnit();
-                if (!unitCaster)
-                    return;
-
-                if (spellInfo->Id == SPELL_MARK_OF_ARLOKK_TRIGGER) // Should only hit if line of sight
-                    me->Attack(unitCaster, true);
+                if (spell->Id == SPELL_MARK_OF_ARLOKK_TRIGGER) // Should only hit if line of sight
+                    me->Attack(caster, true);
             }
 
             void JustDied(Unit* /*killer*/) override

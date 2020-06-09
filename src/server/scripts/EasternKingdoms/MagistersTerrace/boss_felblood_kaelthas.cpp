@@ -218,17 +218,13 @@ struct boss_felblood_kaelthas : public BossAI
         }
     }
 
-    void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+    void SpellHitTarget(Unit* target, SpellInfo const* spell) override
     {
-        Unit* unitTarget = target->ToUnit();
-        if (!unitTarget)
-            return;
-
-        switch (spellInfo->Id)
+        switch (spell->Id)
         {
             case SPELL_GRAVITY_LAPSE_INITIAL:
             {
-                DoCast(unitTarget, gravityLapseTeleportSpells[_gravityLapseTargetCount], true);
+                DoCast(target, gravityLapseTeleportSpells[_gravityLapseTargetCount], true);
                 uint32 gravityLapseDamageSpell = SPELL_GRAVITY_LAPSE_DAMAGE;
                 target->m_Events.AddEventAtOffset([target, gravityLapseDamageSpell]()
                 {
@@ -240,8 +236,8 @@ struct boss_felblood_kaelthas : public BossAI
                 break;
             }
             case SPELL_CLEAR_FLIGHT:
-                unitTarget->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_FLY);
-                unitTarget->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_DAMAGE);
+                target->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_FLY);
+                target->RemoveAurasDueToSpell(SPELL_GRAVITY_LAPSE_DAMAGE);
                 break;
             default:
                 break;

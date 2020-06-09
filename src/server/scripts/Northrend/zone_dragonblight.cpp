@@ -539,9 +539,9 @@ class npc_wyrmrest_defender : public CreatureScript
                 }
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
-                switch (spellInfo->Id)
+                switch (spell->Id)
                 {
                     case SPELL_WYRMREST_DEFENDER_MOUNT:
                         Talk(WHISPER_MOUNTED, me->GetCharmerOrOwner());
@@ -625,9 +625,9 @@ class npc_torturer_lecraft : public CreatureScript
                     Talk (SAY_AGGRO, player);
             }
 
-            void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* caster, SpellInfo const* spell) override
             {
-                if (spellInfo->Id != SPELL_HIGH_EXECUTORS_BRANDING_IRON)
+                if (spell->Id != SPELL_HIGH_EXECUTORS_BRANDING_IRON)
                     return;
 
                 if (Player* player = caster->ToPlayer())

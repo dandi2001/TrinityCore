@@ -474,16 +474,12 @@ struct boss_sathrovarr : public BossAI
             kalecgos->AI()->EnterEvadeMode(why);
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* spell) override
     {
-        Unit* unitCaster = caster->ToUnit();
-        if (!unitCaster)
-            return;
-
-        if (spellInfo->Id == SPELL_TAP_CHECK_DAMAGE)
+        if (spell->Id == SPELL_TAP_CHECK_DAMAGE)
         {
             DoCastSelf(SPELL_TELEPORT_BACK, true);
-            Unit::Kill(unitCaster, me);
+            Unit::Kill(caster, me);
         }
     }
 

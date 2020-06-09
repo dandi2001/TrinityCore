@@ -135,9 +135,9 @@ class boss_halazzi : public CreatureScript
                     damage = 0;
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit*, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_TRANSFORM_SPLIT2)
+                if (spell->Id == SPELL_TRANSFORM_SPLIT2)
                     EnterPhase(PHASE_HUMAN);
             }
 

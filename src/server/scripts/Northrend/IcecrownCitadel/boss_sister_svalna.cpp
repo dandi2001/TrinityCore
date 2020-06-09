@@ -427,9 +427,9 @@ struct boss_sister_svalna : public BossAI
         }
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_HURL_SPEAR && me->HasAura(SPELL_AETHER_SHIELD))
+        if (spell->Id == SPELL_HURL_SPEAR && me->HasAura(SPELL_AETHER_SHIELD))
         {
             me->RemoveAurasDueToSpell(SPELL_AETHER_SHIELD);
             Talk(EMOTE_SVALNA_BROKEN_SHIELD, caster);
@@ -449,21 +449,17 @@ struct boss_sister_svalna : public BossAI
         me->SetHover(false);
     }
 
-    void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+    void SpellHitTarget(Unit* target, SpellInfo const* spell) override
     {
-        Unit* unitTarget = target->ToUnit();
-        if (!unitTarget)
-            return;
-
-        switch (spellInfo->Id)
+        switch (spell->Id)
         {
             case SPELL_IMPALING_SPEAR_KILL:
-                Unit::Kill(me, unitTarget);
+                Unit::Kill(me, target);
                 break;
             case SPELL_IMPALING_SPEAR:
-                if (TempSummon* summon = unitTarget->SummonCreature(NPC_IMPALING_SPEAR, *unitTarget))
+                if (TempSummon* summon = target->SummonCreature(NPC_IMPALING_SPEAR, *target))
                 {
-                    Talk(EMOTE_SVALNA_IMPALE, unitTarget);
+                    Talk(EMOTE_SVALNA_IMPALE, target);
                     CastSpellExtraArgs args;
                     args.AddSpellBP0(1);
                     summon->CastSpell(target, VEHICLE_SPELL_RIDE_HARDCODED, args);
@@ -891,9 +887,9 @@ public:
         Reset();
     }
 
-    void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_REVIVE_CHAMPION && !IsUndead)
+        if (spell->Id == SPELL_REVIVE_CHAMPION && !IsUndead)
         {
             IsUndead = true;
             me->setDeathState(JUST_RESPAWNED);
@@ -918,7 +914,7 @@ public:
 
             Talk(SAY_CAPTAIN_RESURRECTED);
             me->UpdateEntry(newEntry, me->GetCreatureData());
-            DoCastSelf(SPELL_UNDEATH, true);
+            DoCast(me, SPELL_UNDEATH, true);
         }
     }
 

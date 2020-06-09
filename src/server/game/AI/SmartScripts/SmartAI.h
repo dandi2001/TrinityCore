@@ -98,10 +98,12 @@ class TC_GAME_API SmartAI : public CreatureAI
         void MoveInLineOfSight(Unit* who) override;
 
         // Called when hit by a spell
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override;
+        void SpellHit(Unit* unit, SpellInfo const* spellInfo) override;
+        void SpellHitByGameObject(GameObject* object, SpellInfo const* spellInfo) override;
 
         // Called when spell hits a target
-        void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override;
+        void SpellHitTarget(Unit* target, SpellInfo const* spellInfo) override;
+        void SpellHitTargetGameObject(GameObject* object, SpellInfo const* spellInfo) override;
 
         // Called at any Damage from any attacker (before damage apply)
         void DamageTaken(Unit* doneBy, uint32& damage) override;
@@ -267,9 +269,7 @@ class TC_GAME_API SmartGameObjectAI : public GameObjectAI
         void OnGameEvent(bool start, uint16 eventId) override;
         void OnLootStateChanged(uint32 state, Unit* unit) override;
         void EventInform(uint32 eventId) override;
-
-        // Called when hit by a spell
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override;
+        void SpellHit(Unit* unit, SpellInfo const* spellInfo) override;
 
         // Called when the gameobject summon successfully other creature
         void JustSummoned(Creature* creature) override;

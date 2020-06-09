@@ -142,9 +142,9 @@ public:
 
         }
 
-        void SpellHitTarget(WorldObject* /*target*/, SpellInfo const* spellInfo) override
+        void SpellHitTarget(Unit* /*target*/, SpellInfo const* spell) override
         {
-            if (spellInfo->Id == SPELL_CHAIN_LIGHTNING)
+            if (spell->Id == SPELL_CHAIN_LIGHTNING)
             {
                 if (rand32() % 10)
                     return;
@@ -334,9 +334,9 @@ public:
             summoned->AI()->AttackStart(me);
         }
 
-        void SpellHitTarget(WorldObject* /*target*/, SpellInfo const* spellInfo) override
+        void SpellHitTarget(Unit* /*target*/, SpellInfo const* spell) override
         {
-            if (spellInfo->Id == SPELL_KUR_CHAIN_LIGHTNING)
+            if (spell->Id == SPELL_KUR_CHAIN_LIGHTNING)
             {
                 if (rand32() % 30)
                     return;
@@ -344,7 +344,7 @@ public:
                 Talk(SAY_KUR_LIGHTNING);
             }
 
-            if (spellInfo->Id == SPELL_KUR_FROST_SHOCK)
+            if (spell->Id == SPELL_KUR_FROST_SHOCK)
             {
                 if (rand32() % 30)
                     return;
@@ -442,7 +442,7 @@ public:
             scheduler.CancelAll();
         }
 
-        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* /*caster*/, SpellInfo const* spellInfo) override
         {
             if (spellInfo->Id == SPELL_PLANT_WARMAUL_OGRE_BANNER || spellInfo->Id == SPELL_PLANT_KIL_SORROW_BANNER)
                 bannered = true;

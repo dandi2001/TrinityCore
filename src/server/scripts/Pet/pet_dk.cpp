@@ -73,13 +73,13 @@ class npc_pet_dk_ebon_gargoyle : public CreatureScript
             }
 
             // Fly away when dismissed
-            void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* source, SpellInfo const* spell) override
             {
-                if (spellInfo->Id != SPELL_DK_DISMISS_GARGOYLE || !me->IsAlive())
+                if (spell->Id != SPELL_DK_DISMISS_GARGOYLE || !me->IsAlive())
                     return;
 
                 Unit* owner = me->GetOwner();
-                if (!owner || owner != caster)
+                if (!owner || owner != source)
                     return;
 
                 // Stop Fighting

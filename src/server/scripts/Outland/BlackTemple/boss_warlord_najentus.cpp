@@ -91,9 +91,9 @@ struct boss_najentus : public BossAI
         Talk(SAY_DEATH);
     }
 
-    void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_HURL_SPINE && me->HasAura(SPELL_TIDAL_SHIELD))
+        if (spell->Id == SPELL_HURL_SPINE && me->HasAura(SPELL_TIDAL_SHIELD))
         {
             me->RemoveAurasDueToSpell(SPELL_TIDAL_SHIELD);
             DoCastSelf(SPELL_TIDAL_BURST, true);

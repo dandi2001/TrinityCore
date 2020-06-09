@@ -156,9 +156,9 @@ struct npc_summoned_skeleton : public ScriptedAI
 {
     npc_summoned_skeleton(Creature* creature) : ScriptedAI(creature) { }
 
-    void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_DEATH_PACT_2)
+        if (spell->Id == SPELL_DEATH_PACT_2)
             DoCastSelf(SPELL_DEATH_PACT_3, true);
     }
 };

@@ -406,6 +406,11 @@ public:
                 PlayerGUID = who->GetGUID();
         }
 
+        //void SpellHit(Unit* /*caster*/, SpellInfo const* /*spell*/) override
+        //{
+        //    DoCast(me, SPELL_DE_MATERIALIZE);
+        //}
+
         void UpdateAI(uint32 diff) override
         {
             if (!Materialize)

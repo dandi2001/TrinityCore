@@ -203,9 +203,9 @@ class npc_azure_ring_captain : public CreatureScript
                 me->SetReactState(REACT_AGGRESSIVE);
             }
 
-            void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+            void SpellHitTarget(Unit* target, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_ICE_BEAM)
+                if (spell->Id == SPELL_ICE_BEAM)
                 {
                     target->CastSpell(target, SPELL_SUMMON_ARCANE_BEAM, true);
                     me->DespawnOrUnsummon();

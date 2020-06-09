@@ -68,14 +68,10 @@ public:
             _events.ScheduleEvent(EVENT_CRUSHING_LEAP, 15s);
         }
 
-        void SpellHit(WorldObject* caster, SpellInfo const* /*spellInfo*/) override
+        void SpellHit(Unit* caster, SpellInfo const* /*spell*/) override
         {
-            Unit* unitCaster = caster->ToUnit();
-            if (!unitCaster)
-                return;
-
-            if (unitCaster->IsVehicle())
-                Unit::Kill(me, unitCaster);
+            if (caster->IsVehicle())
+                Unit::Kill(me, caster);
         }
 
         void UpdateAI(uint32 diff) override

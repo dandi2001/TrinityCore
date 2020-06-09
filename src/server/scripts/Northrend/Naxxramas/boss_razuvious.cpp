@@ -99,9 +99,9 @@ public:
                 Talk(SAY_SLAY);
         }
 
-        void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* caster, SpellInfo const* spell) override
         {
-            if (spellInfo->Id == SPELL_UNDERSTUDY_TAUNT)
+            if (spell->Id == SPELL_UNDERSTUDY_TAUNT)
                 Talk(SAY_TAUNTED, caster);
         }
 

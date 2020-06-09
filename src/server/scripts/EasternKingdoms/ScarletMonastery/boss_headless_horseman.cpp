@@ -206,7 +206,7 @@ struct npc_wisp_invis : public ScriptedAI
             DoCastSelf(_firstSpell);
     }
 
-    void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spellInfo) override
     {
         if (spellInfo->Id == SPELL_HEADLESS_HORSEMAN___WISP_FLIGHT_PORT && _creatureType == 4)
             me->SetDisplayId(DISPLAYID_INVIS_WISP_MAN);
@@ -328,21 +328,17 @@ struct npc_head : public ScriptedAI
         }
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* spell) override
     {
-        Unit* unitCaster = caster->ToUnit();
-        if (!unitCaster)
-            return;
-
         if (!_withBody)
             return;
 
-        if (spellInfo->Id == SPELL_HEADLESS_HORSEMAN_CLIMAX___SEND_HEAD)
+        if (spell->Id == SPELL_HEADLESS_HORSEMAN_CLIMAX___SEND_HEAD)
         {
             _withBody = false;
 
             if (!_bodyGUID)
-                _bodyGUID = unitCaster->GetGUID();
+                _bodyGUID = caster->GetGUID();
 
             me->RemoveAllAuras();
             me->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
@@ -353,9 +349,9 @@ struct npc_head : public ScriptedAI
 
             DoTalk(SAY_LOST_HEAD);
 
-            _scheduler.Schedule(2s, [unitCaster, this](TaskContext /*context*/)
+            _scheduler.Schedule(2s, [caster, this](TaskContext /*context*/)
             {
-                me->GetMotionMaster()->MoveFleeing(unitCaster);
+                me->GetMotionMaster()->MoveFleeing(caster);
             });
         }
     }
@@ -614,14 +610,10 @@ struct boss_headless_horseman : public ScriptedAI
             head->AI()->SetData(DATA_HEAD_TALK, SAY_PLAYER_DEATH);
     }
 
-    void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+    void SpellHitTarget(Unit* unit, SpellInfo const* spell) override
     {
-        Unit* unitTarget = target->ToUnit();
-        if (!unitTarget)
-            return;
-
-        if (spellInfo->Id == SPELL_CONFLAGRATION && unitTarget->HasAura(SPELL_CONFLAGRATION))
-            DoTalk(SAY_CONFLAGRATION, unitTarget);
+        if (spell->Id == SPELL_CONFLAGRATION && unit->HasAura(SPELL_CONFLAGRATION))
+            DoTalk(SAY_CONFLAGRATION, unit);
     }
 
     void JustDied(Unit* /*killer*/) override
@@ -642,12 +634,8 @@ struct boss_headless_horseman : public ScriptedAI
         }
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* spellInfo) override
     {
-        Unit* unitCaster = caster->ToUnit();
-        if (!unitCaster)
-            return;
-
         if (_withHead)
             return;
 
@@ -665,8 +653,8 @@ struct boss_headless_horseman : public ScriptedAI
 
         DoTalk(SAY_REJOINED);
         DoCastSelf(SPELL_HEADLESS_HORSEMAN_CLIMAX___HEAD_VISUAL);
-        unitCaster->GetMotionMaster()->Clear();
-        unitCaster->GetMotionMaster()->MoveFollow(me, 6.f, 0.f);
+        caster->GetMotionMaster()->Clear();
+        caster->GetMotionMaster()->MoveFollow(me, 6.f, 0.f);
 
         switch (_phase)
         {
@@ -843,9 +831,9 @@ struct npc_pulsing_pumpkin : public ScriptedAI
         me->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_STUNNED);
     }
 
-    void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_SPROUTING)
+        if (spell->Id == SPELL_SPROUTING)
         {
             _sprouted = true;
             me->RemoveAllAuras();

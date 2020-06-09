@@ -69,9 +69,9 @@ class boss_infinite_corruptor : public CreatureScript
                 DoCastAOE(SPELL_CORRUPTION_OF_TIME_CHANNEL); // implicitly targets the Guardian
             }
 
-            void SpellHitTarget(WorldObject* target, SpellInfo const* spellInfo) override
+            void SpellHitTarget(Unit* target, SpellInfo const* spell) override
             {
-                if (spellInfo->Id == SPELL_CORRUPTION_OF_TIME_CHANNEL)
+                if (spell->Id == SPELL_CORRUPTION_OF_TIME_CHANNEL)
                     target->CastSpell(target, SPELL_CORRUPTION_OF_TIME_TARGET, true);
             }
 

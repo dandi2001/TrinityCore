@@ -746,9 +746,9 @@ struct npc_icc_orb_controller : public ScriptedAI
         }
     }
 
-    void SpellHit(WorldObject* caster, SpellInfo const* spellInfo) override
+    void SpellHit(Unit* caster, SpellInfo const* spell) override
     {
-        if (spellInfo->Id == SPELL_ORB_CONTROLLER_ACTIVE)
+        if (spell->Id == SPELL_ORB_CONTROLLER_ACTIVE)
             if (GameObject* orb = me->FindNearestGameObject(GO_EMPOWERING_BLOOD_ORB, 5.0f))
                 orb->AI()->SetGUID(caster->GetGUID(), DATA_GUID);
     }

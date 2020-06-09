@@ -737,12 +737,12 @@ class boss_sara : public CreatureScript
                 }
             }
 
-            void SpellHitTarget(WorldObject* /*target*/, SpellInfo const* spellInfo) override
+            void SpellHitTarget(Unit* /*target*/, SpellInfo const* spell) override
             {
                 if (!roll_chance_i(30) || _events.IsInPhase(PHASE_TRANSFORM))
                     return;
 
-                switch (spellInfo->Id)
+                switch (spell->Id)
                 {
                     case SPELL_SARAS_FERVOR:
                         Talk(SAY_SARA_FERVOR_HIT);
@@ -948,10 +948,10 @@ class boss_yogg_saron : public CreatureScript
                     me->AddLootMode(LOOT_MODE_HARD_MODE_1);
             }
 
-            void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+            void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
             {
                 // Val'anyr
-                if (spellInfo->Id == SPELL_IN_THE_MAWS_OF_THE_OLD_GOD)
+                if (spell->Id == SPELL_IN_THE_MAWS_OF_THE_OLD_GOD)
                     me->AddLootMode(32);
             }
 

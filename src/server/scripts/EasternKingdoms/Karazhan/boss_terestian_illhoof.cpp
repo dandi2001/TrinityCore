@@ -92,9 +92,9 @@ public:
             Talk(SAY_AGGRO);
         }
 
-        void SpellHit(WorldObject* /*caster*/, SpellInfo const* spellInfo) override
+        void SpellHit(Unit* /*caster*/, SpellInfo const* spell) override
         {
-            if (spellInfo->Id == SPELL_BROKEN_PACT)
+            if (spell->Id == SPELL_BROKEN_PACT)
                 events.ScheduleEvent(EVENT_SUMMON_KILREK, 32s);
         }
 
